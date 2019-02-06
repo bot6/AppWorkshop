@@ -23,7 +23,7 @@ echo "Resources Group Name for Deployment: " "$rgname"
 echo "Deployment name: " "$dplyname"
 echo "RAWS Github URI to WorkshopEnv.json: " "$uriWorkshopenv"
 echo
-az group deployment create --verbose --name "$dplyname" --resource-group "$rgname" --template-uri "$uriWorkshopenv"
+az group deployment create --name "$dplyname" --resource-group "$rgname" --template-uri "$uriWorkshopenv" #--verbose 
 
 #Reference
 #az group deployment create --verbose --name WorkshopEnv00 --resource-group mtab-tracka-rg --template-uri https://raw.githubusercontent.com/ArthurCh/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json

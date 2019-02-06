@@ -8,7 +8,7 @@
     },
     "AdminUserName": {
       "type": "string",
-      "defaultValue":  "sysadmin"
+      "defaultValue":  "workshopSysAdmin"
     },
     "AdminUserPassword": {
       "type": "securestring",
