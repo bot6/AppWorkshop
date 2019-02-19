@@ -13,19 +13,36 @@ az account list --output tsv --query "[?isDefault].name"
 echo
 read -p "Enter Resources Group Name for Deployment: " rgname
 az group create --location westus2 --resource-group "$rgname"
+echo "Resource Group created in the designated Azure Subscription"
 
-#Deploy FULL Azure Infra with Azure CLI and ARM
+#Provide GitHub Username that point to your forked Workshop envrepo
+echo 
+read -p "Enter your GitHub username (case sensitive): " githubusername
+uriWorkshopenv = 'https://raw.githubusercontent.com/ArthurCh/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json'
+customuriWorkshopenv = ${uriWorkshopenv/ArthurCh/$githubusername}
+
+#Verifying Azure Infra with Azure CLI and ARM
 echo
-read -p "Enter Deployment name: " dplyname
-read -p "Enter the RAWS URI to WorkshopEnv.json (Ex: https://raw.githubusercontent.com/<username>/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json): " uriWorkshopenv
+read -p "Enter Deployment name for ARM deployment: " dplyname
+#read -p "Enter the RAWS URI to WorkshopEnv.json (Ex: https://raw.githubusercontent.com/<username>/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json): " uriWorkshopenv
 
 echo
-echo "Subscription Name for lab: " "$subName"
-echo "Resources Group Name for Deployment: " "$rgname"
-echo "Deployment name: " "$dplyname"
-echo "RAWS Github URI to WorkshopEnv.json: " "$uriWorkshopenv"
+echo "Subscription Name for lab: " $subName
+echo "Resources Group Name for Deployment: " $rgname
+echo "Deployment name: " $dplyname
+echo "Your GitHub username: " $githubusername
+echo "Your RAW Github Workshop URI to WorkshopEnv.json: " $customuriWorkshopenv
 echo
-az group deployment create --name "$dplyname" --resource-group "$rgname" --template-uri "$uriWorkshopenv" #--verbose 
+echo "Here's your final azcli deployment cmd passing in your parameters you specific for your subscription env
+echo "az group deployment create --name " $dplyname " --resource-group " $rgname " --template-uri " $customuriWorkshopenv " --verbose"
 
 #Reference
-#az group deployment create --verbose --name WorkshopEnv00 --resource-group mtab-tracka-rg --template-uri https://raw.githubusercontent.com/ArthurCh/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json
+echo "Your above azcli deployment cmd should looks like this"
+echo "az group deployment create --name WorkshopEnv00 --resource-group mtab-tracka-rg --template-uri https://raw.githubusercontent.com/ArthurCh/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json --verbose"
+echo "If not, please hit Ctrl-X to break out of it and try running this script again"
+
+#Deploying the Full Azure Infrastructure stake
+echo "Deploying..."
+az group deployment create --name "$dplyname" --resource-group "$rgname" --template-uri "$customuriWorkshopenv" #--verbose 
+
+
