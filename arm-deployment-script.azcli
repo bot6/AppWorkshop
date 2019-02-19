@@ -11,38 +11,49 @@ az account list --output tsv --query "[?isDefault].name"
 
 #Create resource group
 echo
-read -p "Enter Resources Group Name for Deployment: " rgname
+read -p "Enter a Resources Group Name for Deployment: " rgname
 az group create --location westus2 --resource-group "$rgname"
 echo "Resource Group created in the designated Azure Subscription"
 
 #Provide GitHub Username that point to your forked Workshop envrepo
 echo 
 read -p "Enter your GitHub username (case sensitive): " githubusername
-uriWorkshopenv = 'https://raw.githubusercontent.com/ArthurCh/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json'
-customuriWorkshopenv = ${uriWorkshopenv/ArthurCh/$githubusername}
+echo "Your GitHub username is: " $githubusername
+customuriWorkshopenv="https://raw.githubusercontent.com/"$githubusername"/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json"
+#echo $customuriWorkshopenv
 
 #Verifying Azure Infra with Azure CLI and ARM
 echo
-read -p "Enter Deployment name for ARM deployment: " dplyname
+read -p "Enter a Deployment name for ARM deployment: " dplyname
 #read -p "Enter the RAWS URI to WorkshopEnv.json (Ex: https://raw.githubusercontent.com/<username>/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json): " uriWorkshopenv
 
 echo
+echo "***Output of your parameteres you have provided***"
 echo "Subscription Name for lab: " $subName
 echo "Resources Group Name for Deployment: " $rgname
 echo "Deployment name: " $dplyname
 echo "Your GitHub username: " $githubusername
-echo "Your RAW Github Workshop URI to WorkshopEnv.json: " $customuriWorkshopenv
+echo "Your Forked URI RAW Github to WorkshopEnv.json: " $customuriWorkshopenv
 echo
-echo "Here's your final azcli deployment cmd passing in your parameters you specific for your subscription env
-echo "az group deployment create --name " $dplyname " --resource-group " $rgname " --template-uri " $customuriWorkshopenv " --verbose"
+echo "*Here's your azcli deployment cmd with your parameters you specified for your subscription env"
+echo "-> az group deployment create --name" $dplyname "--resource-group" $rgname "--template-uri" $customuriWorkshopenv "--verbose"
+echo
 
 #Reference
-echo "Your above azcli deployment cmd should looks like this"
-echo "az group deployment create --name WorkshopEnv00 --resource-group mtab-tracka-rg --template-uri https://raw.githubusercontent.com/ArthurCh/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json --verbose"
-echo "If not, please hit Ctrl-X to break out of it and try running this script again"
+echo "*Your above azcli deployment cmd should looks like something like below but with your parameters and your URI with your GitHub username to your forked repo"
+echo "-> az group deployment create --name WorkshopEnv00 --resource-group mtab-tracka-rg --template-uri https://raw.githubusercontent.com/ArthurCh/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json --verbose"
+echo
+echo "If not, please hit No or break out (Ctrl-X) and try running this script again"
+read -p "Continue? Type y/n: " answer
+
+if [ $answer != "y" ]; then 
+    echo "Exit: Try again"
+    exit 
+fi
 
 #Deploying the Full Azure Infrastructure stake
 echo "Deploying..."
-az group deployment create --name "$dplyname" --resource-group "$rgname" --template-uri "$customuriWorkshopenv" #--verbose 
+echo "You can see the verbose output as it deploy via ARM! Don't worry if you disconnected/lost this session for whatever reasons, the deployment of resources is now being managed by ARM" 
+az group deployment create --name "$dplyname" --resource-group "$rgname" --template-uri "$customuriWorkshopenv" --verbose 
 
 
