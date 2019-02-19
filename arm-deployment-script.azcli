@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #List of subscription in this Azure account
 az account list --output table
 
