@@ -53,6 +53,7 @@ if [ $answer != "y" ]; then
 fi
 
 #Deploying the Full Azure Infrastructure stake
+echo
 echo "Deploying..."
 echo "You can see the verbose output as it deploy via ARM! Don't worry if you disconnected/lost this session for whatever reasons, the deployment of resources is now being managed by ARM" 
 az group deployment create --name "$dplyname" --resource-group "$rgname" --template-uri "$customuriWorkshopenv" --verbose 
