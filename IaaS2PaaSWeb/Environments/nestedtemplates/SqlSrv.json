@@ -191,11 +191,11 @@
           {
             "name": "ipconfig1",
             "properties": {
+              "privateIPAllocationMethod": "Dynamic",
               "subnet": {
                 "id": "[variables('subnetRef')]"
               },
-              "privateIPAllocationMethod": "Dynamic",
-              "publicIpAddress": {
+              "publicIPAddress": {
                 "id": "[resourceId(resourceGroup().name,'Microsoft.Network/publicIpAddresses', variables('publicIpAddressName'))]"
               }
             }
