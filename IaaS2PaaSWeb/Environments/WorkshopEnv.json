@@ -4,7 +4,7 @@
   "parameters": {
     "vNetName": {
       "type": "string",
-      "defaultValue":  "workshopVnet"
+      "defaultValue":  "workshop-vnet"
     },
     "AdminUserName": {
       "type": "string",

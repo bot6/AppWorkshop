@@ -12,7 +12,7 @@ az account list --output tsv --query "[?isDefault].name"
 #Create resource group
 echo
 read -p "Enter a Resources Group Name for Deployment: " rgname
-az group create --location westus2 --resource-group "$rgname"
+az group create --location westus2 --resource-group "$rgname" --tags 'CreatedBy=MTAEvent'
 echo "Resource Group created in the designated Azure Subscription"
 
 #Provide GitHub Username that point to your forked Workshop envrepo

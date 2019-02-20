@@ -184,8 +184,7 @@
       "apiVersion": "2016-09-01",
       "location": "[resourceGroup().location]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'))]",
-        "[concat('Microsoft.Network/networkSecurityGroups/', variables('networkSecurityGroupName'))]"
+        "[concat('Microsoft.Network/publicIpAddresses/', variables('publicIpAddressName'))]"
       ],
       "properties": {
         "ipConfigurations": [
