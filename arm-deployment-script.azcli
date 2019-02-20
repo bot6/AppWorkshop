@@ -11,13 +11,14 @@ az account list --output tsv --query "[?isDefault].name"
 
 #Create resource group
 echo
-read -p "Enter a Resources Group Name for Deployment: " rgname
-az group create --location westus2 --resource-group "$rgname" --tags 'CreatedBy=MTAEvent'
-echo "Resource Group created in the designated Azure Subscription"
+read -p "Enter a Resource Group Name for Deployment: " rgname
+read -p "Enter the region of the Resource Group: " regionlocation
+az group create --location $regionlocation --resource-group "$rgname" --tags 'CreatedBy=MTAEvent'
+echo "Resource Group created in the designated Azure Subscription:" $rgname "in" $regionlocation "region"
 
 #Provide GitHub Username that point to your forked Workshop envrepo
 echo 
-read -p "Enter your GitHub username (case sensitive): " githubusername
+read -p "Enter your GitHub username: " githubusername
 echo "Your GitHub username is: " $githubusername
 customuriWorkshopenv="https://raw.githubusercontent.com/"$githubusername"/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json"
 #echo $customuriWorkshopenv
@@ -36,12 +37,12 @@ echo "Your GitHub username: " $githubusername
 echo "Your Forked URI RAW Github to WorkshopEnv.json: " $customuriWorkshopenv
 echo
 echo "*Here's your azcli deployment cmd with your parameters you specified for your subscription env"
-echo "-> az group deployment create --name" $dplyname "--resource-group" $rgname "--template-uri" $customuriWorkshopenv "--verbose"
+echo "--> az group deployment create --name" $dplyname "--resource-group" $rgname "--template-uri" $customuriWorkshopenv "--verbose"
 echo
 
 #Reference
 echo "*Your above azcli deployment cmd should looks like something like below but with your parameters and your URI with your GitHub username to your forked repo"
-echo "-> az group deployment create --name WorkshopEnv00 --resource-group mtab-tracka-rg --template-uri https://raw.githubusercontent.com/ArthurCh/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json --verbose"
+echo "--> az group deployment create --name WorkshopEnv00 --resource-group mtab-tracka-rg --template-uri https://raw.githubusercontent.com/ArthurCh/AppWorkshop/master/IaaS2PaaSWeb/Environments/WorkshopEnv.json --verbose"
 echo
 echo "If not, please hit No or break out (Ctrl-X) and try running this script again"
 read -p "Continue? Type y/n: " answer
